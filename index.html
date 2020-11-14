@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+
+    <!-- Vue CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <!-- For favicon error -->
+    <link rel="shortcut icon" href="#">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #00003f;
+            color: #ffffff;
+        }
+
+        #app {
+            text-align: center;
+            padding: 10px 0px;
+        }
+
+        #app input {
+            outline: none;
+            border: none;
+            width: 300px;
+            height: 30px;
+            padding: 0px 10px;
+            border-radius: 15px;
+        }
+
+        #app button {
+            outline: none;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            width: 100px;
+            height: 30px;
+            color: #fff;
+            background-color: #008000;
+        }
+
+        #app table {
+            width: 100%;
+            border: solid 1px #ccc;
+            margin: 10px 0px;
+        }
+
+        #app table tr,
+        #app table tr td {
+            padding:5px 0px;
+            border: solid 1px #ccc;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="query" />
+        <button @click="showMovie()">Show</button>
+        <div id="result" v-if="result">
+            <table>
+                <tr>
+                    <td>{{result.Title}}</td>
+                </tr>
+                <tr>
+                    <td>{{result.imdbRating}}</td>
+                </tr>
+                <tr>
+                    <td>{{result.imdbVotes}}</td>
+                </tr>
+                <tr>
+                    <td>{{result.Released}}</td>
+                </tr>
+                <tr>
+                    <td>{{result.Country}}</td>
+                </tr>
+                <tr>
+                    <td>{{result.Actors}}</td>
+                </tr>
+                <tr>
+                    <td>{{result.Plot}}</td>
+                </tr>
+                <tr>
+                    <td>{{result.Genre}}</td>
+                </tr>
+                <tr>
+                    <td>{{result.Awards}}</td>
+                </tr>
+                <tr>
+                    <td>{{result.Director}}</td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                query: '',
+                result: false,
+            },
+            methods: {
+                showMovie: function () {
+                    fetch(`http://www.omdbapi.com/?apikey=acb25aa2&t=${this.query}`)
+                        .then(result => result.json())
+                        .then(result => {
+                            this.result = result
+                            console.log(result)
+                        })
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>
